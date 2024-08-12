@@ -1,137 +1,60 @@
-const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-const addButton = document.querySelector('#button');
-const newItem = document.querySelector('#todo-item');
-const deleteButton = document.querySelector('#button2'); 
-const titleInput = document.querySelector('#titleInput');
-const descriptionInput = document.querySelector('#descriptionInput');
-const dueDateInput = document.querySelector('#dueDateInput');
-
-addButton.addEventListener('click', addTask);
-deleteButton.addEventListener('click', deleteAllTasks);
-
-function addTask() {
-    const titleValue = titleInput.value.trim();
-    const descriptionValue = descriptionInput.value.trim();
-    const dueDateValue = dueDateInput.value.trim();
-
-    if (titleValue !== "") {
-        const timestamp = new Date().toLocaleString();
-        const task = {
-            title: titleValue,
-            description: descriptionValue,
-            dueDate: dueDateValue, 
-            timestamp: timestamp
-        };
-        tasks.push(task);
-        saveTasksToLocalStorage();
-        renderTasks();
-        titleInput.value = '';
-        descriptionInput.value = '';
-        dueDateInput.value = '';
-
-        dueDateInput.focus();
-        
-    } else {
-        alert("Please enter a task!");
-    }
+function saveToLocalStorage(data) {
+    localStorage.setItem('studentData', JSON.stringify(data));
 }
 
-function renderTasks() {
-    newItem.innerHTML = '';
-    tasks.slice().reverse().forEach((task, index) => {
-        const li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.innerHTML = `<strong>Title:</strong> ${task.title}<br>
-        <strong>Description:</strong> ${task.description}<br>
-        <strong>Timestamp:</strong> ${task.timestamp}
-        <i onclick="delTask(${tasks.length - 1 - index})" class="fa-solid fa-trash"></i>
-        <i onclick="updateTask(${tasks.length - 1 - index})" class="fa-solid fa-pen-to-square"></i>`;
-      
-        // When we append the child we make it possible for us to get an input value 
-        newItem.appendChild(li);
+function loadFromLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('studentData')) || [];
+    return data;
+}
+
+function displayData(data) {
+    const output = document.getElementById('output');
+    output.innerHTML = ''; 
+    data.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.studentId}</td>
+            <td>${item.fullName}</td>
+            <td>${item.yearOfStudy}</td>
+            <td>${item.marks}</td>
+            <td>${item.average}</td>
+            <td>${item.actions}</td>
+        `;
+        output.appendChild(row);
     });
 }
 
-function delTask(index) {
-    tasks.splice(index, 1);
-    saveTasksToLocalStorage();
-    renderTasks();
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const data = loadFromLocalStorage();
+    displayData(data);
+});
 
-
-
-
-function deleteAllTasks() {
-    tasks.splice(0, tasks.length);
-    saveTasksToLocalStorage();
-    renderTasks(); 
-}
-
-
-function saveTasksToLocalStorage() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-function editTask(index) {
-    const task = tasks[index];
-    const li = newItem.children[tasks.length - 1 - index];
-
-    li.innerHTML = `<input type="text" id="editTitle" value="${task.title}">
-    <input type="text" id="editDescription" value="${task.description}">
-    <input type="date" id="editDueDate" value="${task.dueDate}">
-    <button onclick="updateTask(${index})">Save</button>
-    <button onclick="renderTasks()">Cancel</button>`;
-}
-
-function updateTask(index) {
-    const li = newItem.children[tasks.length - 1 - index];
-    const newTitle = li.querySelector('#editTitle').value.trim();
-    const newDescription = li.querySelector('#editDescription').value.trim();
-    const newDueDate = li.querySelector('#editDueDate').value.trim();
-
-    if (newTitle !== "" && newDescription !== "" && newDueDate !== "") {
-        tasks[index].title = newTitle;
-        tasks[index].description = newDescription;
-        tasks[index].dueDate = newDueDate;
-        saveTasksToLocalStorage();
-        renderTasks();
-    } else {
-        alert("Please fill in all fields!");
-    }
-}
-
-renderTasks();
-
-// renderTasks()
-
-function searchTasks(letter) {
-    const filteredTasks = tasks.filter(task => {
-        // Convert both task title and description to lowercase for case-insensitive search
-        const title = task.title.toLowerCase();
-        const description = task.description.toLowerCase();
-        const searchLetter = letter.toLowerCase();
-        // Check if either title or description starts with the search letter
-        return title.startsWith(searchLetter) || description.startsWith(searchLetter);
+document.querySelector('.todo-container').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const studentId = document.getElementById('studentid').value;
+    const fullName = document.getElementById('descriptionInput').value;
+    const yearOfStudy = document.getElementById('yearOfStudyInput').value;
+    const marks = document.getElementById('marksInput').value;
+    const average = document.getElementById('averageInput').value;
+    const updateButton = document.getElementById('').value;
+    const data = loadFromLocalStorage();
+    data.push({
+        studentId,
+        fullName,
+        yearOfStudy,
+        marks,
+        average
     });
+    saveToLocalStorage(data);
+    displayData(data);
+    document.querySelector('.todo-container').reset();
+});
 
-    // Render the filtered tasks
-    renderFilteredTasks(filteredTasks);
-}
+document.getElementById('button2').addEventListener('click', function() {
+    localStorage.removeItem('studentData'); 
+    document.getElementById('output').innerHTML = ''; 
+});
 
-function renderFilteredTasks(filteredTasks) {
-    newItem.innerHTML = '';
-    filteredTasks.slice().reverse().forEach((task, _index) => {
-        const li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.innerHTML = `<strong>Title:</strong> ${task.title}<br>
-        <strong>Description:</strong> ${task.description}<br>
-        <strong>Timestamp:</strong> ${task.timestamp}
-        <i onclick="delTask(${tasks.indexOf(task)})" class="fa-solid fa-trash"></i>
-        <i onclick="updateTask(${tasks.indexOf(task)})" class="fa-solid fa-pen-to-square"></i>`;
-      
-        newItem.appendChild(li);
-    });
-}
 
 
 
