@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+*{
+    box-sizing: border-box;
+    padding:0;
+    font-family: "Patrick Hand", cursive;
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+.logo{
+    font-weight: bold;
+}
+
+.todo-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid ;
+    border-width: thick;
+    margin: 90px;
+    padding: 50px;
+    background-color: black;
+    width: 20%; 
+}
+
+p{
+    color: white;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+input{
+    margin: 5px;
+    padding: 5px;
+}
+
+.btns button {
+    background-color: gray;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 5px; 
+}
+
+.btns button:hover {
+    background-color: black;
+}
+
+#todo-item {
+        padding:10px;
+        margin:10px;
+}
+
+ul li{
+    list-style-type: none ;
+}
+
+.list-group-item {
+    padding: 10px;
+    border: 1px solid 333;
+    margin-bottom: 10px;
+    background-color: black;
+    border-radius: 10px 10px;
+    width:70%;
+    color: #fff;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* navbar */
+
+svg{
+    width: 20px;
+}
+
+/* navbar{
+    display: flex;
+    justify-content: space-evenly;
+} */
+
+.navbar{
+    list-style-type: none;
+    display: inline-flex;
+    justify-content: flex-end;
+    padding: 40px;
+
+}
+
+li{
+    list-style-type: none;
+    padding: 20px;
+    /* display: inline-flex;
+    justify-content: flex-end;
+    padding: 40px; */
+}
+
+
+
+
+
+
+
+
+
+/* home */
+.container-fluid{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.banner{
+    width: 800px;
+    margin-top: 200px;
+    /* border: 6px solid;
+    border-radius: 50%; */
+}
+
+.title{
+    width: 60%;
+    margin: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    font-weight: 600;
+}
+
+.button{
+    padding: 5px;
+    width: 10%;
+    height: 10%;
+    border-radius: 5px;
+    background-color: aquamarine;
+    color: #000;
+    margin: 100px;
+}
+
+/* dashboard */
+.profile{
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pilot{
+    width: 250px;
+}
+
+.filter{
+    width: 300px;
+}
+
+.grid{
+    /* display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(2,1fr); */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* align-items: center; */
+    gap: 30px;
+}
+
+.blocks{
+    border:1px solid rgb(77, 73, 73);
+    /* border-radius: 10%; */
+    max-width: 500px;
+    box-shadow: inset;
+    margin-top: 2%;
+    margin-bottom: 5%;
+    background-color: white;
+}
+
+h3{
+    font-size: large;
+    font-weight: bold;
+    justify-items: center;
+    margin: 10px;
+}
+
+.dashboard{
+     background-color: #C7DDF4;
+
+}
+
+
+hr{
+    display: flex;
+    flex-direction: column;
+}
+
+h1{
+    font-weight: bold;
+}
