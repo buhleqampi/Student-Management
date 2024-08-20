@@ -7,19 +7,28 @@
 
 //   const response = await fetch(myRequest);
 
+// Save to Local Storage
 function saveToLocalStorage(data) {
     localStorage.setItem('studentData', JSON.stringify(data));
 }
 
+// Load from Local Storage
 function loadFromLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('studentData')) || [];
-    return data;
+    return JSON.parse(localStorage.getItem('studentData')) || [];
 }
 
+// Toggle Form Visibility
+document.querySelector('.toggle-form-btn').addEventListener('click', () => {
+    const form = document.querySelector('.todo-container');
+    form.classList.toggle('hidden');
+});
+
 // Display Data
-function displayData(data) {
+function displayData() {
+    const data = loadFromLocalStorage();
     const output = document.getElementById('output');
     output.innerHTML = ''; 
+
     data.forEach((item, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -47,7 +56,7 @@ function displayData(data) {
     document.querySelectorAll('.update-icon').forEach(icon => {
         icon.addEventListener('click', function() {
             const index = this.getAttribute('data-index');
-            updateTask(index);
+            populateFormForUpdate(index);
         });
     });
 }
@@ -57,30 +66,26 @@ function deleteTask(index) {
     const data = loadFromLocalStorage();
     data.splice(index, 1);
     saveToLocalStorage(data);
-    displayData(data);
+    displayData();
 }
 
-// Update Task
-function updateTask(index) {
+// Populate Form for Update
+function populateFormForUpdate(index) {
     const data = loadFromLocalStorage();
     const student = data[index];
+
+    // Populate form with current data
     document.getElementById('studentid').value = student.studentId;
     document.getElementById('descriptionInput').value = student.fullName;
     document.getElementById('yearOfStudyInput').value = student.yearOfStudy;
     document.getElementById('marksInput').value = student.marks;
     document.getElementById('averageInput').value = student.average;
 
-    // Remove the old entry
-    deleteTask(index);
+    // Save index of the item being updated
+    document.getElementById('studentid').setAttribute('data-update-index', index);
 }
 
-// Initial Data Load
-document.addEventListener('DOMContentLoaded', function() {
-    const data = loadFromLocalStorage();
-    displayData(data);
-});
-
-// Add New Task
+// Add or Update Task
 document.querySelector('.todo-container').addEventListener('submit', function(e) {
     e.preventDefault();
     const studentId = document.getElementById('studentid').value;
@@ -88,17 +93,29 @@ document.querySelector('.todo-container').addEventListener('submit', function(e)
     const yearOfStudy = document.getElementById('yearOfStudyInput').value;
     const marks = document.getElementById('marksInput').value;
     const average = document.getElementById('averageInput').value;
+    const updateIndex = document.getElementById('studentid').getAttribute('data-update-index');
     
     const data = loadFromLocalStorage();
-    data.push({
+
+    const newStudent = {
         studentId,
         fullName,
         yearOfStudy,
         marks,
         average
-    });
+    };
+
+    if (updateIndex === null) {
+        // Add new student
+        data.push(newStudent);
+    } else {
+        // Update existing student
+        data[updateIndex] = newStudent;
+        document.getElementById('studentid').removeAttribute('data-update-index');
+    }
+
     saveToLocalStorage(data);
-    displayData(data);
+    displayData();
     document.querySelector('.todo-container').reset();
 });
 
@@ -107,6 +124,10 @@ document.getElementById('button2').addEventListener('click', function() {
     localStorage.removeItem('studentData'); 
     document.getElementById('output').innerHTML = ''; 
 });
+
+// Initial Data Load
+document.addEventListener('DOMContentLoaded', displayData);
+
 
 // const myChart = new Chart("myChart", {
 //     type: "bar",

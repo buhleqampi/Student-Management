@@ -8,42 +8,64 @@
     <link rel="stylesheet" href="./styles.css">    
 </head>  
 <body>
-    <header>
+    <div class="navbar">
+        <div class="logo">
+            <a href="#">
+                <svg width="40px" viewBox="0 0 1024 1024" class="icon" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M512 480a224 224 0 1 0-224-224 224 224 0 0 0 224 224z m0-384a160 160 0 1 1-160 160 160 160 0 0 1 160-160zM989.44 947.84a32 32 0 0 0-6.72-10.56 37.12 37.12 0 0 0-10.56-6.72 32 32 0 0 0-34.88 6.72 36.8 36.8 0 0 0-6.72 10.56 26.56 26.56 0 0 0-2.56 12.16 32 32 0 0 0 2.24 12.16 39.04 39.04 0 0 0 7.04 10.56 32 32 0 0 0 34.88 6.72 37.12 37.12 0 0 0 10.56-6.72 32 32 0 0 0 6.72-34.88zM832 928h-160a32 32 0 0 0 0 64h160a32 32 0 0 0 0-64z" fill="#231815"/>
+                    <path d="M941.44 862.08a32 32 0 0 0 18.56-41.6 480 480 0 0 0-926.4 137.28 32 32 0 0 0 32 34.24H544a32 32 0 0 0 0-64H101.44a416 416 0 0 1 800-84.48 32 32 0 0 0 40 18.56z" fill="#231815"/>
+                </svg>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="./home.html">Home</a></li>
+            <li><a href="./dashboard.html">Dashboard</a></li>
+            <li><a href="./index.html">Students</a></li>
+            <li><a href="./analytics.html">Analytics</a></li>
+        </ul>
+    </div>
+    <!-- <header>
         <h1 class="logo">Student Registration</h1>
         <div class="bell">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 0c-17.7 0-32 14.3-32 32l0 19.2C119 66 64 130.6 64 208l0 18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416l384 0c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8l0-18.8c0-77.4-55-142-128-156.8L256 32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3l-64 0-64 0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M224 0c-17.7 0-32 14.3-32 32v19.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4s15.6 18.9 28.2 18.9h384c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3h-64v0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7 33.3-6.7 45.3-18.7z" />
+            </svg>
         </div>
-    </header>
+    </header> -->
+    
     <section>
-      <form class="todo-container">
-          <input id="studentid" type="number" placeholder="Student ID" required>
-          <input id="descriptionInput" placeholder="Full Name" required>
-          <input type="number" id="yearOfStudyInput" placeholder="Grade" required>
-          <input type="number" id="marksInput" placeholder="Marks" required>
-          <input type="number" id="averageInput" placeholder="Average in class" required>
-          <div class="btns">
-              <button type="submit" id="button">Add</button>
-              <button type="button" id="button2">Delete All</button>
-          </div>
-      </form>
-  
-      <div class="tod-div">
-          <table class="container-fluid">
-              <thead>
-                  <tr>
-                    <th>Student ID</th>
-                      <th>Full Name</th>
-                      <th>Grade</th>
-                      <th>Marks</th>
-                      <th>Average in class</th>
-                      <th>Actions</th>
-                  </tr>
-              </thead>
-              <tbody id="output">
-              </tbody>
-          </table>
-      </div>
-  </section>
+        <h1 class="logo">Student Registration</h1>
+        <button class="toggle-form-btn">Add Student</button>
+        <form class="todo-container hidden">
+            <input id="studentid" type="number" placeholder="Student ID" required>
+            <input id="descriptionInput" placeholder="Full Name" required>
+            <input type="number" id="yearOfStudyInput" placeholder="Grade" required>
+            <input type="number" id="marksInput" placeholder="Marks" required>
+            <input type="number" id="averageInput" placeholder="Average in class" required>
+            <div class="btns">
+                <button type="submit" id="button">Add</button>
+                <button type="button" id="button2">Delete All</button>
+            </div>
+        </form>
+    
+        <div class="tod-div">
+            <table class="container-fluid">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Full Name</th>
+                        <th>Grade</th>
+                        <th>Marks</th>
+                        <th>Average in class</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="output">
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
   <!-- <canvas id="myChart" style="width:100%;max-width:700px"></canvas> -->
   
   <script src="./index.js"></script> 
