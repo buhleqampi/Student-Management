@@ -211,8 +211,8 @@ li{
 
 .button {
     padding: 10px 20px;
-    background-color: aquamarine;
-    color: #000;
+    background-color: #4CAF50;
+    color: white;
     border: none;
     border-radius: 5px;
     font-size: 1.2rem;
@@ -322,7 +322,7 @@ li{
     justify-content: space-between;
 }
 
-.heading h1{
+.heading .text{
     font-size: 40px;
     font-weight: bold;
     text-align: center;
@@ -336,7 +336,7 @@ li{
 }
 
 /* Analytics */
-.analytics h1{
+ h1{
     font-size: 40px;
     font-weight: bold;
     text-align: center;
@@ -345,13 +345,13 @@ li{
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #f7f7f7;
-    border-bottom: 2px solid #e0e0e0;
+    /* background-color: #f7f7f7; */
+    /* border-bottom: 2px solid #e0e0e0; */
 }
 
 
 /* Records */
-.records h1{
+/* .records h1{
     font-size: 40px;
     font-weight: bold;
     text-align: center;
@@ -362,5 +362,14 @@ li{
     padding: 10px;
     background-color: #f7f7f7;
     border-bottom: 2px solid #e0e0e0;
+} */
+
+.calculator{
+    width: 200px;
+    margin: 100px;
+}
+
+.calculator .calculator-text{
+    width:50px;
 }
 
