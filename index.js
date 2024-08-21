@@ -7,23 +7,16 @@
 
 //   const response = await fetch(myRequest);
 
-// Save to Local Storage
-function saveToLocalStorage(data) {
-    localStorage.setItem('studentData', JSON.stringify(data));
-}
-
-// Load from Local Storage
-function loadFromLocalStorage() {
-    return JSON.parse(localStorage.getItem('studentData')) || [];
-}
-
-// Toggle Form Visibility
 document.querySelector('.toggle-form-btn').addEventListener('click', () => {
     const form = document.querySelector('.todo-container');
     form.classList.toggle('hidden');
 });
 
-// Display Data
+document.getElementById('button2').addEventListener('click', function() {
+    localStorage.removeItem('studentData'); 
+    document.getElementById('output').innerHTML = ''; 
+});
+
 function displayData() {
     const data = loadFromLocalStorage();
     const output = document.getElementById('output');
@@ -39,13 +32,15 @@ function displayData() {
             <td>${item.average}</td>
             <td>
                 <i data-index="${index}" class="fa-solid fa-trash delete-icon"></i>
+            </td>
+            <td>
                 <i data-index="${index}" class="fa-solid fa-pen-to-square update-icon"></i>
             </td>
+
         `;
         output.appendChild(row);
     });
 
-    // Add event listeners to the icons
     document.querySelectorAll('.delete-icon').forEach(icon => {
         icon.addEventListener('click', function() {
             const index = this.getAttribute('data-index');
@@ -61,7 +56,6 @@ function displayData() {
     });
 }
 
-// Delete Task
 function deleteTask(index) {
     const data = loadFromLocalStorage();
     data.splice(index, 1);
@@ -69,23 +63,20 @@ function deleteTask(index) {
     displayData();
 }
 
-// Populate Form for Update
 function populateFormForUpdate(index) {
     const data = loadFromLocalStorage();
     const student = data[index];
 
-    // Populate form with current data
     document.getElementById('studentid').value = student.studentId;
     document.getElementById('descriptionInput').value = student.fullName;
     document.getElementById('yearOfStudyInput').value = student.yearOfStudy;
     document.getElementById('marksInput').value = student.marks;
     document.getElementById('averageInput').value = student.average;
 
-    // Save index of the item being updated
+    
     document.getElementById('studentid').setAttribute('data-update-index', index);
 }
 
-// Add or Update Task
 document.querySelector('.todo-container').addEventListener('submit', function(e) {
     e.preventDefault();
     const studentId = document.getElementById('studentid').value;
@@ -106,10 +97,10 @@ document.querySelector('.todo-container').addEventListener('submit', function(e)
     };
 
     if (updateIndex === null) {
-        // Add new student
+
         data.push(newStudent);
     } else {
-        // Update existing student
+        
         data[updateIndex] = newStudent;
         document.getElementById('studentid').removeAttribute('data-update-index');
     }
@@ -119,21 +110,22 @@ document.querySelector('.todo-container').addEventListener('submit', function(e)
     document.querySelector('.todo-container').reset();
 });
 
-// Clear All Data
-document.getElementById('button2').addEventListener('click', function() {
-    localStorage.removeItem('studentData'); 
-    document.getElementById('output').innerHTML = ''; 
-});
+function saveToLocalStorage(data) {
+    localStorage.setItem('studentData', JSON.stringify(data));
+}
 
-// Initial Data Load
+function loadFromLocalStorage() {
+    return JSON.parse(localStorage.getItem('studentData')) || [];
+}
+
 document.addEventListener('DOMContentLoaded', displayData);
 
 
-// const myChart = new Chart("myChart", {
-//     type: "bar",
-//     data: {},
-//     options: {}
-//   });
+const myChart = new myChart("myChart", {
+    type: "bar",
+    data: { Buhle, Ste},
+    options: {1 :2}
+  });
 
   
 
