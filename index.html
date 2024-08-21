@@ -36,9 +36,20 @@
     
     <section>
         <h1 class="logo">Student Registration</h1>
-        <input type="text" class="search">
+        <input type="text" class="search" placeholder="Search...">
         <button class="toggle-form-btn">Add Student</button>
         <button type="button" id="button2" class="delete">Delete All</button>
+        <div>
+            <select id="sortCriteria">
+            <option value="studentId">Student ID</option>
+            <option value="fullName">Full Name</option>
+            <option value="yearOfStudy">Grade</option>
+            <option value="marks">Marks</option>
+            <option value="average">Average</option>
+        </select>
+        <button id="sortButton">Sort</button>
+        </div>
+    
      
         <form class="todo-container hidden">
             <input id="studentid" type="number" placeholder="Student ID" required>

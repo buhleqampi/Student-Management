@@ -374,7 +374,7 @@ li{
     border-bottom: 2px solid #e0e0e0;
 } */
 
-.calculator{
+/* .calculator{
     width: 200px;
     margin: 100px;
 }
@@ -386,4 +386,64 @@ li{
 
 .search{
     width: 200px;
+    cursor: pointer;
+} */
+
+#sortButton{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#sortCriteria{
+    width: 200px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    height: 40px;
+}
+
+/* .document-image{
+    width: 200px;
+} */
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calculator {
+    display: flex;
+    align-items: center;
+}
+
+.calculator-text {
+    margin-right: 10px;
+}
+
+.search {
+    flex-grow: 1;
+    padding: 8px;
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.document-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }

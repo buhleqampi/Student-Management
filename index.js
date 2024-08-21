@@ -7,76 +7,13 @@
 
 //   const response = await fetch(myRequest);
 
+// Toggle form visibility
 document.querySelector('.toggle-form-btn').addEventListener('click', () => {
     const form = document.querySelector('.todo-container');
     form.classList.toggle('hidden');
 });
 
-document.getElementById('button2').addEventListener('click', function() {
-    localStorage.removeItem('studentData'); 
-    document.getElementById('output').innerHTML = ''; 
-});
-
-function displayData() {
-    const data = loadFromLocalStorage();
-    const output = document.getElementById('output');
-    output.innerHTML = ''; 
-
-    data.forEach((item, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.studentId}</td>
-            <td>${item.fullName}</td>
-            <td>${item.yearOfStudy}</td>
-            <td>${item.marks}</td>
-            <td>${item.average}</td>
-            <td>
-                <i data-index="${index}" class="fa-solid fa-trash delete-icon"></i>
-            </td>
-            <td>
-                <i data-index="${index}" class="fa-solid fa-pen-to-square update-icon"></i>
-            </td>
-
-        `;
-        output.appendChild(row);
-    });
-
-    document.querySelectorAll('.delete-icon').forEach(icon => {
-        icon.addEventListener('click', function() {
-            const index = this.getAttribute('data-index');
-            deleteTask(index);
-        });
-    });
-
-    document.querySelectorAll('.update-icon').forEach(icon => {
-        icon.addEventListener('click', function() {
-            const index = this.getAttribute('data-index');
-            populateFormForUpdate(index);
-        });
-    });
-}
-
-function deleteTask(index) {
-    const data = loadFromLocalStorage();
-    data.splice(index, 1);
-    saveToLocalStorage(data);
-    displayData();
-}
-
-function populateFormForUpdate(index) {
-    const data = loadFromLocalStorage();
-    const student = data[index];
-
-    document.getElementById('studentid').value = student.studentId;
-    document.getElementById('descriptionInput').value = student.fullName;
-    document.getElementById('yearOfStudyInput').value = student.yearOfStudy;
-    document.getElementById('marksInput').value = student.marks;
-    document.getElementById('averageInput').value = student.average;
-
-    
-    document.getElementById('studentid').setAttribute('data-update-index', index);
-}
-
+// Add or Update Student
 document.querySelector('.todo-container').addEventListener('submit', function(e) {
     e.preventDefault();
     const studentId = document.getElementById('studentid').value;
@@ -97,10 +34,8 @@ document.querySelector('.todo-container').addEventListener('submit', function(e)
     };
 
     if (updateIndex === null) {
-
         data.push(newStudent);
     } else {
-        
         data[updateIndex] = newStudent;
         document.getElementById('studentid').removeAttribute('data-update-index');
     }
@@ -110,58 +45,151 @@ document.querySelector('.todo-container').addEventListener('submit', function(e)
     document.querySelector('.todo-container').reset();
 });
 
+// Clear all data
+document.getElementById('button2').addEventListener('click', function() {
+    localStorage.removeItem('studentData'); 
+    document.getElementById('output').innerHTML = ''; 
+});
+
+// Search Function
+document.querySelector('.search').addEventListener('input', function() {
+    const searchValue = this.value.toLowerCase();
+    const data = loadFromLocalStorage();
+    const output = document.getElementById('output');
+    output.innerHTML = '';
+
+    const filteredData = data.filter(student => 
+        student.fullName.toLowerCase().includes(searchValue)
+    );
+
+    filteredData.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.studentId}</td>
+            <td>${item.fullName}</td>
+            <td>${item.yearOfStudy}</td>
+            <td>${item.marks}</td>
+            <td>${item.average}</td>
+            <td>
+                <i data-index="${index}" class="fa-solid fa-trash delete-icon"></i>
+            </td>
+            <td>
+                <i data-index="${index}" class="fa-solid fa-pen-to-square update-icon"></i>
+            </td>
+        `;
+        output.appendChild(row);
+    });
+
+    // Reattach delete and update event listeners
+    document.querySelectorAll('.delete-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            deleteTask(index);
+        });
+    });
+
+    document.querySelectorAll('.update-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            populateFormForUpdate(index);
+        });
+    });
+});
+
+// Sort Data
+function sortData(criteria) {
+    let data = loadFromLocalStorage();
+
+    for (let i = 0; i < data.length - 1; i++) {
+        for (let j = 0; j < data.length - i - 1; j++) {
+            if (data[j][criteria] > data[j + 1][criteria]) {
+                let temp = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
+            }
+        }
+    }
+
+    saveToLocalStorage(data);
+    displayData();
+}
+
+// Event listener for sorting
+document.getElementById('sortButton').addEventListener('click', function() {
+    const criteria = document.getElementById('sortCriteria').value;
+    sortData(criteria);
+});
+
+// Delete Task
+function deleteTask(index) {
+    const data = loadFromLocalStorage();
+    data.splice(index, 1);
+    saveToLocalStorage(data);
+    displayData();
+}
+
+// Populate Form for Update
+function populateFormForUpdate(index) {
+    const data = loadFromLocalStorage();
+    const student = data[index];
+
+    document.getElementById('studentid').value = student.studentId;
+    document.getElementById('descriptionInput').value = student.fullName;
+    document.getElementById('yearOfStudyInput').value = student.yearOfStudy;
+    document.getElementById('marksInput').value = student.marks;
+    document.getElementById('averageInput').value = student.average;
+
+    document.getElementById('studentid').setAttribute('data-update-index', index);
+}
+
+// Save to Local Storage
 function saveToLocalStorage(data) {
     localStorage.setItem('studentData', JSON.stringify(data));
 }
 
+// Load from Local Storage
 function loadFromLocalStorage() {
     return JSON.parse(localStorage.getItem('studentData')) || [];
 }
 
+// Initial Data Load
 document.addEventListener('DOMContentLoaded', displayData);
 
+function displayData() {
+    const data = loadFromLocalStorage();
+    const output = document.getElementById('output');
+    output.innerHTML = '';
 
-const myChart = new myChart("myChart", {
-    type: "bar",
-    data: { Buhle, Ste},
-    options: {1 :2}
-  });
+    data.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.studentId}</td>
+            <td>${item.fullName}</td>
+            <td>${item.yearOfStudy}</td>
+            <td>${item.marks}</td>
+            <td>${item.average}</td>
+            <td>
+                <i data-index="${index}" class="fa-solid fa-trash delete-icon"></i>
+            </td>
+            <td>
+                <i data-index="${index}" class="fa-solid fa-pen-to-square update-icon"></i>
+            </td>
+        `;
+        output.appendChild(row);
+    });
 
-  
+    // Reattach delete and update event listeners
+    document.querySelectorAll('.delete-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            deleteTask(index);
+        });
+    });
 
-// function bubbleSort(arr, n)
-// {
-//     var i, j, temp;
-//     var swapped;
-//     for (i = 0; i < n - 1; i++) 
-//     {
-//         swapped = false;
-//         for (j = 0; j < n - i - 1; j++) 
-//         {
-//             if (arr[j] > arr[j + 1]) 
-//             {
-//                 temp = arr[j];
-//                 arr[j] = arr[j + 1];
-//                 arr[j + 1] = temp;
-//                 swapped = true;
-//             }
-//         }
-
-//         if (swapped == false)
-//         break;
-//     }
-// }
-
-// function printArray(arr, size)
-// {
-//   var i;
-//   for (i = 0; i < size; i++)
-//       console.log(arr[i] + " ");
-// }
-
-// // Driver program
-// var arr = [ 64, 34, 25, 12, 22, 11, 90 ];
-// var n = arr.length;
-// bubbleSort(arr, n);
-// console.log("Sorted array: ");
-// printArray(arr, n);
+    document.querySelectorAll('.update-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            populateFormForUpdate(index);
+        });
+    });
+}
