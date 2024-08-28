@@ -447,3 +447,11 @@ li{
     height: 100px;
     object-fit: cover;
 }
+
+.text-important{
+    color:#e0e0e0  !important;
+}
+
+button.button{
+    color: #ffffff;
+}
