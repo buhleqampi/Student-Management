@@ -6,7 +6,9 @@ async function fetchData() {
     const response = await fetch(u`${url}/get-all`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     });
 
@@ -28,7 +30,9 @@ async function addStudent(newStudent) {
       method: "POST",
       body: JSON.stringify(newStudent),
       headers: {
-        "Content-Type": "application/json",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     });
 
@@ -49,7 +53,9 @@ async function updateStudent(studentId, updatedStudent) {
       method: "PUT",
       body: JSON.stringify(updatedStudent),
       headers: {
-        "Content-Type": "application/json",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     });
 
@@ -69,7 +75,9 @@ async function deleteStudent(studentId) {
     const response = await fetch(`${url}/delete-one/${studentId}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
     });
 
@@ -88,7 +96,9 @@ async function deleteAllStudents() {
       const response = await fetch(`${url}/delete-all`, {
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json",
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
         },
       });
   
