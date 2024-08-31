@@ -3,7 +3,7 @@ const url = "https://student-management-api-beta.vercel.app/";
 
 async function fetchData() {
   try {
-    const response = await fetch(url, {
+    const response = await fetch(u`${url}/get-all`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +24,7 @@ async function fetchData() {
 
 async function addStudent(newStudent) {
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${url}/add`, {
       method: "POST",
       body: JSON.stringify(newStudent),
       headers: {
@@ -42,10 +42,10 @@ async function addStudent(newStudent) {
   }
 }
 
-// Function to send a PUT request to update a student
+
 async function updateStudent(studentId, updatedStudent) {
   try {
-    const response = await fetch(`${url}/${studentId}`, {
+    const response = await fetch(`${url}/update/${studentId}`, {
       method: "PUT",
       body: JSON.stringify(updatedStudent),
       headers: {
@@ -57,16 +57,16 @@ async function updateStudent(studentId, updatedStudent) {
       throw new Error(`PUT request failed with status: ${response.status}`);
     }
 
-    fetchData(); // Refresh data after updating
+    fetchData(); 
   } catch (error) {
     console.error("Error during PUT request:", error.message);
   }
 }
 
-// Function to send a DELETE request
+
 async function deleteStudent(studentId) {
   try {
-    const response = await fetch(`${url}/${studentId}`, {
+    const response = await fetch(`${url}/delete-one/${studentId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -77,11 +77,31 @@ async function deleteStudent(studentId) {
       throw new Error(`DELETE request failed with status: ${response.status}`);
     }
 
-    fetchData(); // Refresh data after deleting
+    fetchData(); 
   } catch (error) {
     console.error("Error during DELETE request:", error.message);
   }
 }
+
+async function deleteAllStudents() {
+    try {
+      const response = await fetch(`${url}/delete-all`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`DELETE request failed with status: ${response.status}`);
+      }
+  
+      fetchData(); 
+    } catch (error) {
+      console.error("Error deleting all students:", error.message);
+    }
+  }
+  
 
 // Toggle form visibility
 document.querySelector('.toggle-form-btn').addEventListener('click', () => {
