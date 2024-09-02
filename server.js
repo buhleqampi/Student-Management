@@ -1,9 +1,8 @@
-const url = "https://student-management-api-beta.vercel.app/"; 
+const url = "http://localhost:5000/students"; 
 
-
-async function fetchData() {
+async function getStudents() {
   try {
-    const response = await fetch(u`${url}/get-all`, {
+    const response = await fetch(`${url}/get-all`, {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -16,8 +15,11 @@ async function fetchData() {
       throw new Error(`GET request failed with status: ${response.status}`);
     }
 
+    console.log(response);
+
     const data = await response.json();
     displayData(data); 
+    console.log(displayData);
   } catch (error) {
     console.error("Error during GET request:", error.message);
   }
@@ -40,7 +42,7 @@ async function addStudent(newStudent) {
       throw new Error(`POST request failed with status: ${response.status}`);
     }
 
-    fetchData(); 
+    getStudents(); 
   } catch (error) {
     console.error("Error during POST request:", error.message);
   }
@@ -63,7 +65,7 @@ async function updateStudent(studentId, updatedStudent) {
       throw new Error(`PUT request failed with status: ${response.status}`);
     }
 
-    fetchData(); 
+    getStudents(); 
   } catch (error) {
     console.error("Error during PUT request:", error.message);
   }
@@ -85,7 +87,7 @@ async function deleteStudent(studentId) {
       throw new Error(`DELETE request failed with status: ${response.status}`);
     }
 
-    fetchData(); 
+    getStudents(); 
   } catch (error) {
     console.error("Error during DELETE request:", error.message);
   }
@@ -106,7 +108,7 @@ async function deleteAllStudents() {
         throw new Error(`DELETE request failed with status: ${response.status}`);
       }
   
-      fetchData(); 
+      getStudents(); 
     } catch (error) {
       console.error("Error deleting all students:", error.message);
     }
@@ -150,10 +152,12 @@ document.querySelector('.todo-container').addEventListener('submit', function(e)
 // Search Function
 document.querySelector('.search').addEventListener('input', async function() {
   const searchValue = this.value.toLowerCase();
-  const response = await fetch(url, {
+  const response = await fetch(`${url}/get-all`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
     },
   });
   const data = await response.json();
