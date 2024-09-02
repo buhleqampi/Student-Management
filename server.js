@@ -49,9 +49,9 @@ async function addStudent(newStudent) {
 }
 
 
-async function updateStudent(studentId, updatedStudent) {
+async function updateStudent( _id, updatedStudent) {
   try {
-    const response = await fetch(`${url}/update/${studentId}`, {
+    const response = await fetch(`${url}/update/${ _id}`, {
       method: "PUT",
       body: JSON.stringify(updatedStudent),
       headers: {
@@ -72,9 +72,9 @@ async function updateStudent(studentId, updatedStudent) {
 }
 
 
-async function deleteStudent(studentId) {
+async function deleteStudent( _id) {
   try {
-    const response = await fetch(`${url}/delete-one/${studentId}`, {
+    const response = await fetch(`${url}/delete-one/${ _id}`, {
       method: "DELETE",
       headers: {
         'Accept': 'application/json',
@@ -124,7 +124,7 @@ document.querySelector('.toggle-form-btn').addEventListener('click', () => {
 // Add or Update Student
 document.querySelector('.todo-container').addEventListener('submit', function(e) {
   e.preventDefault();
-  const studentId = document.getElementById('studentid').value;
+  const _id = document.getElementById('studentid').value;
   const fullName = document.getElementById('descriptionInput').value;
   const yearOfStudy = document.getElementById('yearOfStudyInput').value;
   const marks = document.getElementById('marksInput').value;
@@ -132,7 +132,7 @@ document.querySelector('.todo-container').addEventListener('submit', function(e)
   const updateIndex = document.getElementById('studentid').getAttribute('data-update-index');
 
   const newStudent = {
-    studentId,
+    _id,
     fullName,
     yearOfStudy,
     marks,
@@ -142,7 +142,7 @@ document.querySelector('.todo-container').addEventListener('submit', function(e)
   if (updateIndex === null) {
     addStudent(newStudent);
   } else {
-    updateStudent(studentId, newStudent);
+    updateStudent(_id, newStudent);
     document.getElementById('studentid').removeAttribute('data-update-index');
   }
 
@@ -176,36 +176,36 @@ document.querySelector('.search').addEventListener('input', async function() {
 function attachEventListeners() {
   document.querySelectorAll('.delete-icon').forEach(icon => {
     icon.addEventListener('click', function() {
-      const studentId = this.getAttribute('data-index');
-      deleteStudent(studentId);
+      const _id = this.getAttribute('data-index');
+      deleteStudent(_id);
     });
   });
 
   document.querySelectorAll('.update-icon').forEach(icon => {
     icon.addEventListener('click', function() {
-      const studentId = this.getAttribute('data-index');
-      populateFormForUpdate(studentId);
+      const _id = this.getAttribute('data-index');
+      populateFormForUpdate(_id);
     });
   });
 }
 
 // Populate Form for Update
-function populateFormForUpdate(studentId) {
-  fetch(`${url}/${studentId}`)
+function populateFormForUpdate(_id) {
+  fetch(`${url}/update/${ _id}`)
     .then(response => response.json())
     .then(student => {
-      document.getElementById('studentid').value = student.studentId;
+      document.getElementById('studentid').value = student._id;
       document.getElementById('descriptionInput').value = student.fullName;
       document.getElementById('yearOfStudyInput').value = student.yearOfStudy;
       document.getElementById('marksInput').value = student.marks;
       document.getElementById('averageInput').value = student.average;
 
-      document.getElementById('studentid').setAttribute('data-update-index', studentId);
+      document.getElementById('studentid').setAttribute('data-update-index', _id);
     });
 }
 
 // Initial Data Load
-document.addEventListener('DOMContentLoaded', fetchData);
+document.addEventListener('DOMContentLoaded', getStudents);
 
 // Function to display data in the table
 function displayData(data) {
@@ -215,16 +215,16 @@ function displayData(data) {
   data.forEach((item, index) => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${item.studentId}</td>
+      <td>${item._id}</td>
       <td>${item.fullName}</td>
       <td>${item.yearOfStudy}</td>
       <td>${item.marks}</td>
       <td>${item.average}</td>
       <td>
-        <i data-index="${item.studentId}" class="fa-solid fa-trash delete-icon"></i>
+        <i data-index="${item._id}" class="fa-solid fa-trash delete-icon"></i>
       </td>
       <td>
-        <i data-index="${item.studentId}" class="fa-solid fa-pen-to-square update-icon"></i>
+        <i data-index="${item._id}" class="fa-solid fa-pen-to-square update-icon"></i>
       </td>
     `;
     output.appendChild(row);
