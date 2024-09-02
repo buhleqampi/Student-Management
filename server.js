@@ -1,3 +1,12 @@
+const fullName = document.getElementById('descriptionInput');
+const yearOfStudy = document.getElementById('yearOfStudyInput');
+const marks = document.getElementById('marksInput');
+const average = document.getElementById('averageInput');
+const toggleForm = document.querySelector('.toggle-form-btn');
+const addButton = document.querySelector('.todo-container');
+const search = document.querySelector('.search');
+const output = document.getElementById('output');
+
 const url = "http://localhost:5000/students"; 
 
 async function getStudents() {
@@ -15,11 +24,11 @@ async function getStudents() {
       throw new Error(`GET request failed with status: ${response.status}`);
     }
 
-    console.log(response);
+    // console.log(response);
 
     const data = await response.json();
     displayData(data); 
-    console.log(displayData);
+    console.log(data);
   } catch (error) {
     console.error("Error during GET request:", error.message);
   }
@@ -37,6 +46,7 @@ async function addStudent(newStudent) {
         'Access-Control-Allow-Origin': '*'
       },
     });
+    console.log(response);
 
     if (!response.ok) {
       throw new Error(`POST request failed with status: ${response.status}`);
@@ -116,41 +126,37 @@ async function deleteAllStudents() {
   
 
 // Toggle form visibility
-document.querySelector('.toggle-form-btn').addEventListener('click', () => {
+toggleForm.addEventListener('click', () => {
   const form = document.querySelector('.todo-container');
   form.classList.toggle('hidden');
 });
 
 // Add or Update Student
-document.querySelector('.todo-container').addEventListener('submit', function(e) {
+addButton.addEventListener('submit', function(e) {
   e.preventDefault();
-  const _id = document.getElementById('studentid').value;
-  const fullName = document.getElementById('descriptionInput').value;
-  const yearOfStudy = document.getElementById('yearOfStudyInput').value;
-  const marks = document.getElementById('marksInput').value;
-  const average = document.getElementById('averageInput').value;
-  const updateIndex = document.getElementById('studentid').getAttribute('data-update-index');
+
 
   const newStudent = {
-    _id,
-    fullName,
-    yearOfStudy,
-    marks,
-    average
+   
+    fullName : fullName.value,
+    yearOfStudy : yearOfStudy.value,
+    marks : marks.value,
+    average: average.value
   };
 
-  if (updateIndex === null) {
+  // if (updateIndex === null) {
     addStudent(newStudent);
-  } else {
-    updateStudent(_id, newStudent);
-    document.getElementById('studentid').removeAttribute('data-update-index');
-  }
+  // } 
+  // else {
+  //   updateStudent(_id, newStudent);
+  //   document.getElementById('studentid').removeAttribute('data-update-index');
+  // }
 
-  document.querySelector('.todo-container').reset();
+  addButton.reset();
 });
 
 // Search Function
-document.querySelector('.search').addEventListener('input', async function() {
+search.addEventListener('input', async function() {
   const searchValue = this.value.toLowerCase();
   const response = await fetch(`${url}/get-all`, {
     method: "GET",
@@ -162,7 +168,6 @@ document.querySelector('.search').addEventListener('input', async function() {
   });
   const data = await response.json();
   
-  const output = document.getElementById('output');
   output.innerHTML = '';
 
   const filteredData = data.filter(student => 
@@ -194,11 +199,11 @@ function populateFormForUpdate(_id) {
   fetch(`${url}/update/${ _id}`)
     .then(response => response.json())
     .then(student => {
-      document.getElementById('studentid').value = student._id;
-      document.getElementById('descriptionInput').value = student.fullName;
-      document.getElementById('yearOfStudyInput').value = student.yearOfStudy;
-      document.getElementById('marksInput').value = student.marks;
-      document.getElementById('averageInput').value = student.average;
+      // _id.value = student._id;
+      fullName.value = student.fullName;
+      yearOfStudy.value = student.yearOfStudy;
+      marks.value = student.marks;
+      average.value = student.average;
 
       document.getElementById('studentid').setAttribute('data-update-index', _id);
     });
@@ -209,7 +214,6 @@ document.addEventListener('DOMContentLoaded', getStudents);
 
 // Function to display data in the table
 function displayData(data) {
-  const output = document.getElementById('output');
   output.innerHTML = '';
 
   data.forEach((item, index) => {
