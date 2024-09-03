@@ -23,9 +23,7 @@ async function getStudents() {
     if (!response.ok) {
       throw new Error(`GET request failed with status: ${response.status}`);
     }
-
     // console.log(response);
-
     const data = await response.json();
     displayData(data); 
     console.log(data);
@@ -33,7 +31,6 @@ async function getStudents() {
     console.error("Error during GET request:", error.message);
   }
 }
-
 
 async function addStudent(newStudent) {
   try {
@@ -58,7 +55,6 @@ async function addStudent(newStudent) {
   }
 }
 
-
 async function updateStudent( _id, updatedStudent) {
   try {
     const response = await fetch(`${url}/update/${ _id}`, {
@@ -80,7 +76,6 @@ async function updateStudent( _id, updatedStudent) {
     console.error("Error during PUT request:", error.message);
   }
 }
-
 
 async function deleteStudent( _id) {
   try {
@@ -124,7 +119,6 @@ async function deleteAllStudents() {
     }
   }
   
-
 // Toggle form visibility
 toggleForm.addEventListener('click', () => {
   const form = document.querySelector('.todo-container');
@@ -135,7 +129,6 @@ toggleForm.addEventListener('click', () => {
 addButton.addEventListener('submit', function(e) {
   e.preventDefault();
 
-
   const newStudent = {
    
     fullName : fullName.value,
@@ -143,7 +136,6 @@ addButton.addEventListener('submit', function(e) {
     marks : marks.value,
     average: average.value
   };
-
   // if (updateIndex === null) {
     addStudent(newStudent);
   // } 
@@ -151,10 +143,8 @@ addButton.addEventListener('submit', function(e) {
   //   updateStudent(_id, newStudent);
   //   document.getElementById('studentid').removeAttribute('data-update-index');
   // }
-
   addButton.reset();
 });
-
 // Search Function
 search.addEventListener('input', async function() {
   const searchValue = this.value.toLowerCase();
@@ -167,16 +157,12 @@ search.addEventListener('input', async function() {
     },
   });
   const data = await response.json();
-  
   output.innerHTML = '';
-
   const filteredData = data.filter(student => 
     student.fullName.toLowerCase().includes(searchValue)
   );
-
   displayData(filteredData);
 });
-
 // Function to attach event listeners for delete and update icons
 function attachEventListeners() {
   document.querySelectorAll('.delete-icon').forEach(icon => {
@@ -193,7 +179,6 @@ function attachEventListeners() {
     });
   });
 }
-
 // Populate Form for Update
 function populateFormForUpdate(_id) {
   fetch(`${url}/update/${ _id}`)
@@ -208,7 +193,6 @@ function populateFormForUpdate(_id) {
       document.getElementById('studentid').setAttribute('data-update-index', _id);
     });
 }
-
 // Initial Data Load
 document.addEventListener('DOMContentLoaded', getStudents);
 
