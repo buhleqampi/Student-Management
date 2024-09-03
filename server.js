@@ -7,7 +7,172 @@ const addButton = document.querySelector('.todo-container');
 const search = document.querySelector('.search');
 const output = document.getElementById('output');
 
-const url = "http://localhost:5000/students"; 
+// const studentId = document.getElementById('studentid').getAttribute('data-update-index');
+
+const submitBtn = document.getElementById('submitBtn');
+let isUpdateMode = false;
+
+const url = "https://student-management-api-beta.vercel.app/students"; 
+
+toggleForm.addEventListener('click', () => {
+  const form = document.querySelector('.todo-container');
+  form.classList.toggle('hidden');
+});
+
+// toggleForm.addEventListener('click', () => {
+//   const form = document.querySelector('.todo-container');
+//   form.classList.toggle('hidden');
+//   submitBtn.textContent = 'Add Student'; 
+//   submitBtn.classList.remove('update-mode'); 
+//   isUpdateMode = false; 
+// });
+
+addButton.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const newStudent = {
+    fullName : fullName.value,
+    yearOfStudy : yearOfStudy.value,
+    marks : marks.value,
+    average: average.value
+  };
+  
+    addStudent(newStudent);
+  addButton.reset();
+});
+
+
+  
+// const studentData = {
+//   fullName: fullName.value,
+//   yearOfStudy: yearOfStudy.value,
+//   marks: marks.value,
+//   average: average.value
+// };
+
+
+// if (isUpdateMode && studentId) {
+//   updateStudent(studentId, studentData);
+//   submitBtn.textContent = 'Add Student'; 
+//   submitBtn.classList.remove('update-mode'); 
+//   isUpdateMode = false; 
+// } else {
+//   addStudent(studentData);
+// }
+
+// addButton.reset();
+// });
+
+
+
+search.addEventListener('input', async function() {
+  const searchValue = this.value.toLowerCase();
+  const response = await fetch(`${url}/get-all`, {
+    method: "GET",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+  });
+  const data = await response.json();
+  output.innerHTML = '';
+  const filteredData = data.filter(student => 
+    student.fullName.toLowerCase().includes(searchValue)
+  );
+  displayData(filteredData);
+});
+
+
+// Populate Form for Update
+function populateFormForUpdate(_id) {
+  fetch(`${url}/update/${ _id}`)
+    .then(response => response.json())
+    .then(student => {
+  
+      fullName.value = student.fullName;
+      yearOfStudy.value = student.yearOfStudy;
+      marks.value = student.marks;
+      average.value = student.average;
+
+      document.getElementById('studentid').setAttribute('data-update-index', _id);
+    });
+}
+
+// function populateFormForUpdate(_id) {
+//   fetch(`${url}/update/${_id}`)
+//     .then(response => response.json())
+//     .then(student => {
+//       fullName.value = student.fullName;
+//       yearOfStudy.value = student.yearOfStudy;
+//       marks.value = student.marks;
+//       average.value = student.average;
+
+//       document.getElementById('studentid').setAttribute('data-update-index', _id);
+
+      
+//       submitBtn.textContent = 'Update Student';
+//       submitBtn.classList.add('update-mode');
+//       isUpdateMode = true;
+//     });
+// }
+
+document.addEventListener('DOMContentLoaded', getStudents);
+
+function attachEventListeners() {
+  document.querySelectorAll('.delete-icon').forEach(icon => {
+    icon.addEventListener('click', function() {
+      const _id = this.getAttribute('data-index');
+      deleteStudent(_id);
+    });
+  });
+
+  document.querySelectorAll('.update-icon').forEach(icon => {
+    icon.addEventListener('click', function() {
+      const _id = this.getAttribute('data-index');
+      populateFormForUpdate(_id);
+    });
+  });
+}
+// function attachEventListeners() {
+//   document.querySelectorAll('.delete-icon').forEach(icon => {
+//     icon.addEventListener('click', function () {
+//       const _id = this.getAttribute('data-index');
+//       deleteStudent(_id);
+//     });
+//   });
+
+//   document.querySelectorAll('.update-icon').forEach(icon => {
+//     icon.addEventListener('click', function () {
+//       const _id = this.getAttribute('data-index');
+//       populateFormForUpdate(_id);
+//     });
+//   });
+// }
+
+function displayData(data) {
+  output.innerHTML = '';
+
+  data.forEach((item, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item._id}</td>
+      <td>${item.fullName}</td>
+      <td>${item.yearOfStudy}</td>
+      <td>${item.marks}</td>
+      <td>${item.average}</td>
+      <td>
+        <i data-index="${item._id}" class="fa-solid fa-trash delete-icon"></i>
+      </td>
+      <td>
+        <i data-index="${item._id}" class="fa-solid fa-pen-to-square update-icon"></i>
+      </td>
+    `;
+    output.appendChild(row);
+  });
+
+  attachEventListeners();
+}
 
 async function getStudents() {
   try {
@@ -119,106 +284,4 @@ async function deleteAllStudents() {
     }
   }
   
-// Toggle form visibility
-toggleForm.addEventListener('click', () => {
-  const form = document.querySelector('.todo-container');
-  form.classList.toggle('hidden');
-});
-
-// Add or Update Student
-addButton.addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  const newStudent = {
-   
-    fullName : fullName.value,
-    yearOfStudy : yearOfStudy.value,
-    marks : marks.value,
-    average: average.value
-  };
-  // if (updateIndex === null) {
-    addStudent(newStudent);
-  // } 
-  // else {
-  //   updateStudent(_id, newStudent);
-  //   document.getElementById('studentid').removeAttribute('data-update-index');
-  // }
-  addButton.reset();
-});
-// Search Function
-search.addEventListener('input', async function() {
-  const searchValue = this.value.toLowerCase();
-  const response = await fetch(`${url}/get-all`, {
-    method: "GET",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
-  });
-  const data = await response.json();
-  output.innerHTML = '';
-  const filteredData = data.filter(student => 
-    student.fullName.toLowerCase().includes(searchValue)
-  );
-  displayData(filteredData);
-});
-// Function to attach event listeners for delete and update icons
-function attachEventListeners() {
-  document.querySelectorAll('.delete-icon').forEach(icon => {
-    icon.addEventListener('click', function() {
-      const _id = this.getAttribute('data-index');
-      deleteStudent(_id);
-    });
-  });
-
-  document.querySelectorAll('.update-icon').forEach(icon => {
-    icon.addEventListener('click', function() {
-      const _id = this.getAttribute('data-index');
-      populateFormForUpdate(_id);
-    });
-  });
-}
-// Populate Form for Update
-function populateFormForUpdate(_id) {
-  fetch(`${url}/update/${ _id}`)
-    .then(response => response.json())
-    .then(student => {
-      // _id.value = student._id;
-      fullName.value = student.fullName;
-      yearOfStudy.value = student.yearOfStudy;
-      marks.value = student.marks;
-      average.value = student.average;
-
-      document.getElementById('studentid').setAttribute('data-update-index', _id);
-    });
-}
-// Initial Data Load
-document.addEventListener('DOMContentLoaded', getStudents);
-
-// Function to display data in the table
-function displayData(data) {
-  output.innerHTML = '';
-
-  data.forEach((item, index) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${item._id}</td>
-      <td>${item.fullName}</td>
-      <td>${item.yearOfStudy}</td>
-      <td>${item.marks}</td>
-      <td>${item.average}</td>
-      <td>
-        <i data-index="${item._id}" class="fa-solid fa-trash delete-icon"></i>
-      </td>
-      <td>
-        <i data-index="${item._id}" class="fa-solid fa-pen-to-square update-icon"></i>
-      </td>
-    `;
-    output.appendChild(row);
-  });
-
-  // Reattach delete and update event listeners
-  attachEventListeners();
-}
 

@@ -455,3 +455,25 @@ li{
 button.button{
     color: #ffffff;
 }
+
+
+#submitBtn {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #submitBtn:hover {
+    background-color: lightgreen;
+  }
+  
+  .update-mode {
+    background-color: blue !important;
+  }
+  
+  .update-mode:hover {
+    background-color: lightblue !important;
+  }
+  
