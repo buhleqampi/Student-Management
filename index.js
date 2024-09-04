@@ -1,11 +1,4 @@
-// const myRequest = await Request ("https://script.google.com/macros/s/AKfycbxp0eaxZhX9L2ygoj7gV9UAm_5mzKjaQr8sPmWjJMm0LF3nFM6A4q8eGIkwTDAFwVbv/exect", {
-//     method: "POST",
-//     body: JSON.stringify({ name: "Buhle" }),
-//     headers: {
-//         "Content-Type": "application/json",},
-//   });
 
-//   const response = await fetch(myRequest);
 
 // Toggle form visibility
 document.querySelector('.toggle-form-btn').addEventListener('click', () => {
