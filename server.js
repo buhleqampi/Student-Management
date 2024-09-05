@@ -37,9 +37,10 @@ addButton.addEventListener('submit', function(e) {
     average: average.value
   };
   
-    addStudent(newStudent);
+  addStudent(newStudent);
   addButton.reset();
 });
+
 
 
   
