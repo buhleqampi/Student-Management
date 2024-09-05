@@ -285,3 +285,18 @@ async function deleteAllStudents() {
   }
   
 
+//   const arr = [ 2, 4, 5, 7, 8, 10]
+
+// for (let i = 0; i < arr.length - 1; i++) {
+//     for (let j = 0; j < data.length - i - 1; j++) {
+//         if (data[j][criteria] > data[j + 1][criteria]) {
+//             let temp = data[j];
+//             data[j] = data[j + 1];
+//             data[j + 1] = temp;
+//         }
+
+//         console.log(arr)
+//     }
+// }
+
+// public static  void Main [
