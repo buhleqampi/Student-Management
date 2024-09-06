@@ -9,12 +9,9 @@
 //   );
 
 //   const response = await fetch(myRequest);
-
-
-const output = document.querySelector('#output');  
-
-
 // const data = await response.json();
+const search = document.querySelector('.search');
+const output = document.querySelector('#output');  
 
 const bookUrl = "https://freetestapi.com/api/v1/books";
 
@@ -31,6 +28,24 @@ async function fetchBooks() {
     })
     .catch(error => console.error('Error:', error));
 }
+
+search.addEventListener('input', async function() {
+  const searchValue = this.value.toLowerCase();
+  const response = await fetch(`bookUrl`, {
+    method: "GET",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+  });
+  const data = await response.json();
+  output.innerHTML = '';
+  const filteredData = data.filter(student => 
+    student.fullName.toLowerCase().includes(searchValue)
+  );
+  displayData(filteredData);
+});
 
 
 function attachEventListeners() {
