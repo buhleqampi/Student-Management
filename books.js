@@ -60,14 +60,11 @@ function displayData(data) {
   data.forEach((item) => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${item.cover_image}</td>
+      <td><img src="${item.cover_image}" alt="${item.title}" style="width:100px; height:auto;"></td>
       <td>${item.title}</td>
       <td>${item.genre}</td>
       <td>${item.description}</td>
-      <td>
-        <i data-index="${item._id}" class="fa-solid fa-trash delete-icon"></i>
-      </td>
-  
+     
     `;
     output.appendChild(row);
   });
@@ -88,7 +85,7 @@ async function deleteBook(id) {
 
     if (response.ok) {
       alert('Book deleted successfully');
-      fetchBooks(); // Refresh the list
+      fetchBooks(); 
     }
   } catch (error) {
     console.error('Error deleting book:', error);
@@ -96,10 +93,10 @@ async function deleteBook(id) {
 }
 
 function populateFormForUpdate(id) {
-  // Logic to populate the update form with the book's details
+  
 }
 
-// Fetch books when the page loads
+
 fetchBooks();
 
 
