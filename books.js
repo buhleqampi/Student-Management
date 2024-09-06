@@ -31,21 +31,21 @@ async function fetchBooks() {
 
 search.addEventListener('input', async function() {
   const searchValue = this.value.toLowerCase();
-  const response = await fetch(`bookUrl`, {
-    method: "GET",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
-  });
-  const data = await response.json();
-  output.innerHTML = '';
-  const filteredData = data.filter(student => 
-    student.fullName.toLowerCase().includes(searchValue)
-  );
-  displayData(filteredData);
-});
+
+  fetch(bookUrl)
+  .then(response => response.json())
+  .then((data) => {
+
+    const filteredData = data.filter(book => 
+      book.title.toLowerCase().includes(searchValue) ||
+      book.genre.toLowerCase().includes(searchValue)
+    );
+    
+    displayData(filteredData); 
+    console.log(filteredData);
+  }) 
+  .catch(error => console.error('Error:', error));
+  })
 
 
 function attachEventListeners() {
