@@ -67,9 +67,7 @@ function displayData(data) {
       <td>
         <i data-index="${item._id}" class="fa-solid fa-trash delete-icon"></i>
       </td>
-      <td>
-        <i data-index="${item._id}" class="fa-solid fa-pen-to-square update-icon"></i>
-      </td>
+  
     `;
     output.appendChild(row);
   });
