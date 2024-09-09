@@ -29,7 +29,7 @@ async function fetchBooks() {
     .catch(error => console.error('Error:', error));
 }
 
-search.addEventListener('input', async function() {
+search.addEventListener('input', async function() { 
   const searchValue = this.value.toLowerCase();
 
   fetch(bookUrl)
