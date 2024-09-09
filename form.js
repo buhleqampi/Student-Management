@@ -1,4 +1,4 @@
-   const baseUrl = 'http://localhost:5000/email/send-message';
+        const baseUrl = 'https://student-management-api-beta.vercel.app/email/send-message';
 
             document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault(); 
