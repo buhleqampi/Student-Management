@@ -1,4 +1,4 @@
-        const baseUrl = 'https://student-management-api-beta.vercel.app/email/send-message';
+        const baseUrl = 'http://localhost:3000/email/send-message';
 
             document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault(); 
@@ -10,26 +10,36 @@
             const email = document.getElementById('email').value;
             const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
+            const file = document.getElementById('attachment');
             
             
             if (!email || !subject || !message) {
                 console.log('Form is invalid');
                 return; 
             }
-        
-            const contactData = {
-                email: email,
-                subject: subject,
-                message: message
-            };
+
+            const form= new FormData()
+            form.append('email', email)
+            form.append('subject', subject)
+            form.append('message', message)
+            form.append('file', file.files[0])
+            console.log(file.files[0])
+
+
+            // const contactData = {
+            //     email: email,
+            //     subject: subject,
+            //     message: message,
+            //     file: await file.files[0]
+            // };
         
             try {
                 const response = await fetch(baseUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Access-Control-Allow-Origin': '*'
                     },
-                    body: JSON.stringify(contactData)
+                    body: form
                 });
         
                 const data = await response.json();
