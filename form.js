@@ -24,7 +24,7 @@
             form.append('email', email)
             form.append('subject', subject)
             form.append('message', message)
-            form.append('file', selectedFile)
+            form.append('file', file.files[0])
             console.log(selectedFile)
 
 

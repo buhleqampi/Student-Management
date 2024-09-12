@@ -73,6 +73,8 @@ function displayData(data) {
   }
 
   data.forEach((item) => {
+
+    
     const row = document.createElement('tr');
     row.innerHTML = `
       <td><img src="${item.cover_image}" alt="${item.title}" style="width:100px; height:auto;"></td>
