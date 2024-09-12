@@ -5,7 +5,9 @@
         
             createMessages();
         })
-        
+        let selectedFile;
+        let imgePreview;
+       
         async function createMessages() {
             const email = document.getElementById('email').value;
             const subject = document.getElementById('subject').value;
@@ -22,8 +24,8 @@
             form.append('email', email)
             form.append('subject', subject)
             form.append('message', message)
-            form.append('file', file.files[0])
-            console.log(file.files[0])
+            form.append('file', selectedFile)
+            console.log(selectedFile)
 
 
             // const contactData = {
@@ -63,4 +65,20 @@
                 toast.className = toast.className.replace("show", "");
             }, 3000); 
         }
-        
+
+       function fileSelect(e){
+        let img = document.querySelector('img')
+            if(e.target.files[0]){
+                selectedFile = e.target.files[0]
+            }
+
+            const reader = new FileReader()
+            reader.readAsDataURL(selectedFile)
+
+
+            reader.onload = (e)=>{
+                imgePreview=  e.target.result
+                img.src = imgePreview
+                console.log(imgePreview)
+            }
+        }

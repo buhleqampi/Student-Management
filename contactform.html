@@ -20,8 +20,10 @@
         <label for="message">Message:</label>
         <textarea id="message" name="message" required></textarea>
         <br>
-        <input type="file" name="file" id="attachment">
+        <input type="file" name="file" id="attachment" onchange="fileSelect(event)">
         <button type="submit">Send</button>
+
+        <img src="" alt="">
     </form>
 
     <script src="./form.js"></script>
